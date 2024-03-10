@@ -1,7 +1,7 @@
 module Discord
   module API
     class Messages
-      alias DiscordAttachment = Lucky::UploadedFile
+      alias DiscordAttachment = File
 
       def self.get(channel_id : String, id : String)
         client = Client.new("/channels/#{channel_id}/messages/#{id}")
