@@ -5,7 +5,7 @@ module Discord
       class IntegrtionError < Exception; end
 
       API_KEY = ENV.fetch("DISCORD_API_KEY")
-      CHANNEL_ID = ENV.fetch("DISCORD_CHANNEL_ID")
+      HOSTING_CHANNEL_ID = ENV.fetch("DISCORD_CHANNEL_ID")
       BASE_URL = "https://discord.com/api"
       AUTHORIZATION_HEADER = "Bot #{API_KEY}"
       DEFAULT_HEADERS = {

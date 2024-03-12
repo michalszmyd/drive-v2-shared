@@ -4,15 +4,15 @@ module Discord
       property id, content, channel_id, attachments, attachment
 
       @attachments : Array(Attachment)
-      @attachment : Attachment
+      @attachment : Attachment | Nil
 
       def initialize(
         @id : String,
         @content : String,
         @channel_id : String,
-        attachments : Array(JSON::Any)
+        attachments : Array(JSON::Any) | Nil
       )
-        @attachments = attachments.map do |element|
+        @attachments = attachments ? attachments.map do |element|
           content_type = element["content_type"]?
 
           Attachment.new(
@@ -21,9 +21,9 @@ module Discord
             url: element["url"].as_s,
             content_type: content_type ? content_type.as_s : ""
           )
-        end
+        end : [] of Attachment
 
-        @attachment = @attachments[0]
+        @attachment = @attachments.first?
       end
     end
   end

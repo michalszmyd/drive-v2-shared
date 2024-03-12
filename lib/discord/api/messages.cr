@@ -20,14 +20,22 @@ module Discord
         end
       end
 
-      def self.create(content : String, attachment : DiscordAttachment? = nil)
+      def self.create(channel_id : String, content : String, attachment : DiscordAttachment? = nil)
         form = Forms::Multipart.new
+
         io = form.build do |builder|
           builder.field("content", content)
-          builder.file("file", attachment.tempfile, HTTP::FormData::FileMetadata.new(filename: attachment.filename))
+
+          if attachment
+            builder.file(
+              "file",
+              attachment.tempfile,
+              HTTP::FormData::FileMetadata.new(filename: attachment.filename)
+            )
+          end
         end
 
-        client = Client.new("/channels/#{Client::CHANNEL_ID}/messages")
+        client = Client.new("/channels/#{channel_id}/messages")
         client.request_headers.add("Content-Type", "multipart/form-data; boundary=#{form.boundary}")
 
         client.post(io.to_s) do |payload_response|
@@ -37,7 +45,7 @@ module Discord
             id: json["id"].as_s,
             content: json["content"].as_s,
             channel_id: json["channel_id"].as_s,
-            attachments: json["attachments"].as_a
+            attachments: json["attachments"].as_a?
           )
 
           yield message
