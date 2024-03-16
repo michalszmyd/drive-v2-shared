@@ -7,6 +7,10 @@ module S3
     def initialize(@id)
     end
 
+    def delete
+      Client.new.delete_object(Client::BUCKET, id)
+    end
+
     def presigned_source
       @presigned_source ||= begin
         options = Awscr::S3::Presigned::Url::Options.new(
