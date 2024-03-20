@@ -69,7 +69,7 @@ module Azurite
     end
 
     def first?
-      results[0]?
+      limit(1).results[0]?
     end
 
     def limit(value : Int32)
@@ -135,17 +135,17 @@ module Azurite
     end
 
     def each(&block : T ->)
-      results do |element|
-        yield element
+      params = execute_params
+
+      AppDatabase.query_each(params[:sql], args: params[:args]) do |element|
+        yield element.read T
       end
     end
 
     def results
       params = execute_params
 
-      AppDatabase.query_each(params[:sql], args: params[:args]) do |element|
-        yield element.read T
-      end
+      AppDatabase.query_all(params[:sql], args: params[:args], as: T)
     end
 
     def execute_params
