@@ -145,7 +145,9 @@ module Azurite
     def results
       params = execute_params
 
-      AppDatabase.query_all(params[:sql], args: params[:args], as: T)
+      records = AppDatabase.query_all(params[:sql], args: params[:args], as: T)
+
+      records
     end
 
     def execute_params
