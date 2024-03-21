@@ -1,12 +1,12 @@
 module Azurite
   module Relations
-    macro has_many(name, key = "id")
+    macro has_many(name, foreign_key)
       def joins_{{name}}
-        joins("INNER JOIN {{name.id}} ON {{name.id}}.{{key.id}} = #{table_name}.id")
+        joins("INNER JOIN {{name.id}} ON {{name.id}}.{{foreign_key.id}} = #{table_name}.id")
       end
 
       def left_joins_{{name}}
-        joins("LEFT JOIN {{name.id}} ON {{name.id}}.{{key.id}} = #{table_name}.id")
+        joins("LEFT JOIN {{name.id}} ON {{name.id}}.{{foreign_key.id}} = #{table_name}.id")
       end
     end
 
