@@ -134,7 +134,7 @@ module Azurite
       self
     end
 
-    def each(&block : T ->)
+    def each(& : T ->)
       params = execute_params
 
       AppDatabase.query_each(params[:sql], args: params[:args]) do |element|
@@ -159,8 +159,8 @@ module Azurite
       where_clause = where_params[:where_clause]
 
       {
-        sql: "SELECT #{select_clause} FROM #{table_name} #{joins_clause} #{where_clause} #{order} #{limit} #{offset}",
-        args: args
+        sql:  "SELECT #{select_clause} FROM #{table_name} #{joins_clause} #{where_clause} #{order} #{limit} #{offset}",
+        args: args,
       }
     end
 
@@ -173,7 +173,7 @@ module Azurite
         args = [] of WhereConditionType
         index_of_where_parameter = 0
 
-        where_condition = @where_conditions.map_with_index do |where, index|
+        where_condition = @where_conditions.map do |where|
           if where.value.nil?
             where.to_query
           else
@@ -185,8 +185,8 @@ module Azurite
         where_clause = where_condition.blank? ? "" : "WHERE #{where_condition}"
 
         {
-          args: args,
-          where_clause: where_clause
+          args:         args,
+          where_clause: where_clause,
         }
       end
     end

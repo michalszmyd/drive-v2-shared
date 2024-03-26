@@ -18,8 +18,8 @@ module S3
       @name = name.gsub('#', "")
     end
 
-    def upload_file
-      unique_signature = "#{UUID.random.to_s}-#{name}"
+    def upload_file(&)
+      unique_signature = "#{UUID.random}-#{name}"
 
       uploaded = uploader.upload(Client::BUCKET, unique_signature, attachment)
 

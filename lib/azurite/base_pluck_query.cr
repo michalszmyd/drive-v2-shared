@@ -8,7 +8,7 @@ module Azurite
     end
 
     DB.mapping({
-      id: Int64
+      id: Int64,
     })
   end
 

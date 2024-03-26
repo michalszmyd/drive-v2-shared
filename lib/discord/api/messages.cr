@@ -3,7 +3,7 @@ module Discord
     class Messages
       alias DiscordAttachment = File
 
-      def self.get(channel_id : String, id : String)
+      def self.get(channel_id : String, id : String, &)
         client = Client.new("/channels/#{channel_id}/messages/#{id}")
 
         client.get do |payload_response|
@@ -20,7 +20,7 @@ module Discord
         end
       end
 
-      def self.create(channel_id : String, content : String, attachment : DiscordAttachment? = nil)
+      def self.create(channel_id : String, content : String, attachment : DiscordAttachment? = nil, &)
         form = Forms::Multipart.new
 
         io = form.build do |builder|

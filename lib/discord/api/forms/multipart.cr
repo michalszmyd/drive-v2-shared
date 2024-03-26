@@ -2,7 +2,7 @@ module Discord
   module API
     module Forms
       class Multipart
-        def build
+        def build(&)
           io = IO::Memory.new
           builder = HTTP::FormData::Builder.new(io, boundary)
 

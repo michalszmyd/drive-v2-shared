@@ -2,13 +2,14 @@ module Discord
   module API
     class Client
       class RecordError < Exception; end
+
       class IntegrtionError < Exception; end
 
-      API_KEY = ENV.fetch("DISCORD_API_KEY")
-      HOSTING_CHANNEL_ID = ENV.fetch("DISCORD_CHANNEL_ID")
-      BASE_URL = "https://discord.com/api"
+      API_KEY              = ENV.fetch("DISCORD_API_KEY")
+      HOSTING_CHANNEL_ID   = ENV.fetch("DISCORD_CHANNEL_ID")
+      BASE_URL             = "https://discord.com/api"
       AUTHORIZATION_HEADER = "Bot #{API_KEY}"
-      DEFAULT_HEADERS = {
+      DEFAULT_HEADERS      = {
         "Authorization": AUTHORIZATION_HEADER,
       }
 
@@ -27,7 +28,7 @@ module Discord
         request_headers.add(key, value)
       end
 
-      def get
+      def get(&)
         HTTP::Client.get(
           path,
           headers: request_headers
@@ -36,7 +37,7 @@ module Discord
         end
       end
 
-      def post(body : String | IO::Memory)
+      def post(body : String | IO::Memory, &)
         HTTP::Client.post(
           path,
           headers: request_headers,
@@ -48,7 +49,7 @@ module Discord
 
       private def http_response_handle(response)
         if response.status_code >= 200 && response.status_code < 400
-          parsed_body = JSON.parse(response.body_io.gets.not_nil!)
+          parsed_body = JSON.parse(response.body_io.gets || "{}")
           payload_response = PayloadResponse.new(
             json: parsed_body,
             status_code: response.status_code

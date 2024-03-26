@@ -1,4 +1,3 @@
-
 module Azurite
   alias WhereConditionType = String | Int32 | Int64 | Bool | Nil | Time
 
