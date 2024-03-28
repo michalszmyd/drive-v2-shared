@@ -61,7 +61,7 @@ module Azurite
 
       count_value = AppDatabase.scalar(count_sql, args: args)
 
-      if count_value.is_a?(Int32)
+      if count_value.is_a?(Int64)
         count_value
       else
         0
