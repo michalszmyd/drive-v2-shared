@@ -16,6 +16,10 @@ module DriveFiles
           @signature
         )
         end
+
+        def to_url_params
+          ["id=#{id}", "expires=#{expires}", "date=#{date.gsub(" ", "%20")}", "algorithm=#{algorithm}", "signature=#{signature}"].join("&")
+        end
       end
 
       KEY = ENV["SECRET_SHARE_SHA"]
